@@ -16408,6 +16408,7 @@ MonoBehaviour:
   - {fileID: 451737628}
   - {fileID: 60743137}
   moveSpeed: 2
+  showGizmo: 1
 --- !u!43 &1634717476
 Mesh:
   m_ObjectHideFlags: 0

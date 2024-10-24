@@ -12,6 +12,7 @@ public class PlatformManager : MonoBehaviour
 {
     [SerializeField] private Transform[] waypoints = new Transform[3];
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private bool showGizmo = true;
 
     private int currentWayPoint = 0;
     private float distance = 0.1f;
@@ -35,7 +36,7 @@ public class PlatformManager : MonoBehaviour
     // Gizmo
     private void OnDrawGizmos()
     {
-        if (waypoints == null || waypoints.Length != 3)
+        if (!showGizmo || waypoints == null || waypoints.Length != 3)
             return;
 
         // Draw path
