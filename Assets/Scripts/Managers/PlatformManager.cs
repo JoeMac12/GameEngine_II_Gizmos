@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 // Unity Custom Gizmo Lesson Script
 // Joseph, Charlie
@@ -45,6 +48,18 @@ public class PlatformManager : MonoBehaviour
                 // Draw spheres for waypoints
                 Gizmos.DrawWireSphere(waypoints[i].position, 0.25f);
 
+                // Waypoint number stuff
+                #if UNITY_EDITOR
+                Vector3 textPosition = waypoints[i].position + Vector3.up * 0.5f;
+                Handles.Label(textPosition, (i + 1).ToString(), new GUIStyle()
+                {
+                    normal = new GUIStyleState() {textColor = (i == currentWayPoint) ? Color.green : Color.white},
+                    fontSize = 20,
+                    fontStyle = FontStyle.Bold,
+                    alignment = TextAnchor.MiddleCenter
+                });
+                #endif
+
                 // Draw lines between waypoints
                 if (i < waypoints.Length - 1 && waypoints[i + 1] != null)
                 {
@@ -60,7 +75,7 @@ public class PlatformManager : MonoBehaviour
         }
 
         // Draw platform pos
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, 0.25f);
     }
 }
