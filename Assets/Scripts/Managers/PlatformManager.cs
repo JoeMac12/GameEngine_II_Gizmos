@@ -81,7 +81,7 @@ public class PlatformManager : MonoBehaviour
                 Vector3 textPosition = waypoints[i].position + Vector3.up * 0.5f;
                 Handles.Label(textPosition, (i + 1).ToString(), new GUIStyle()
                 {
-                    normal = new GUIStyleState() {textColor = (i == currentWayPoint) ? Color.green : Color.white},
+                    normal = new GUIStyleState() {textColor = Color.white},
                     fontSize = 20,
                     fontStyle = FontStyle.Bold,
                     alignment = TextAnchor.MiddleCenter
