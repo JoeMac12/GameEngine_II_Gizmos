@@ -13,6 +13,8 @@ public class PlatformManager : MonoBehaviour
     [SerializeField] private Transform[] waypoints = new Transform[3];
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private bool showGizmo = true;
+    [SerializeField] private float arrowSize = 0.5f;
+    [SerializeField] private float arrowAmount = 1f;
 
     private int currentWayPoint = 0;
     private float distance = 0.1f;
@@ -30,6 +32,31 @@ public class PlatformManager : MonoBehaviour
         if (Vector3.Distance(transform.position, targetPosition) < distance)
         {
             currentWayPoint = (currentWayPoint + 1) % waypoints.Length;
+        }
+    }
+
+    // Arrows
+    private void DrawArrow(Vector3 start, Vector3 end)
+    {
+        Vector3 direction = (end - start).normalized;
+        float pathLength = Vector3.Distance(start, end);
+        int arrowCount = Mathf.Max(1, Mathf.FloorToInt(pathLength * arrowAmount));
+
+        for (float i = 0; i < arrowCount; i++)
+        {
+            float t = (i + 0.5f) / arrowCount;
+            Vector3 arrowPos = Vector3.Lerp(start, end, t);
+
+            // Arrow
+            Vector3 right = Vector3.Cross(Vector3.up, direction).normalized;
+            Vector3 arrowTip = arrowPos + direction * (arrowSize * 0.5f);
+            Vector3 arrowBase = arrowPos - direction * (arrowSize * 0.5f);
+            Vector3 arrowRight = arrowBase + right * (arrowSize * 0.25f);
+            Vector3 arrowLeft = arrowBase - right * (arrowSize * 0.25f);
+
+            Gizmos.DrawLine(arrowBase, arrowTip);
+            Gizmos.DrawLine(arrowRight, arrowTip);
+            Gizmos.DrawLine(arrowLeft, arrowTip);
         }
     }
 
@@ -65,6 +92,7 @@ public class PlatformManager : MonoBehaviour
                 if (i < waypoints.Length - 1 && waypoints[i + 1] != null)
                 {
                     Gizmos.DrawLine(waypoints[i].position, waypoints[i + 1].position);
+                    DrawArrow(waypoints[i].position, waypoints[i + 1].position);
                 }
             }
         }
@@ -73,6 +101,7 @@ public class PlatformManager : MonoBehaviour
         if (waypoints[0] != null && waypoints[waypoints.Length - 1] != null)
         {
             Gizmos.DrawLine(waypoints[waypoints.Length - 1].position, waypoints[0].position);
+            DrawArrow(waypoints[waypoints.Length - 1].position, waypoints[0].position);
         }
 
         // Draw platform pos
